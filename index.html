@@ -52,6 +52,7 @@ button, a { font-family: "Jost", sans-serif; }
 
 .birthday-title { font-family: "Cinzel", serif; font-size: clamp(2rem, 7vw, 4.5rem); line-height: 1.1; color: var(--maroon); letter-spacing: .05em; margin-top: 20px; }
 .birthday-title span { color: var(--gold); }
+.birthday-title sup { font-size: 0.55em; top: -0.5em; text-transform: lowercase; }
 
 .name { font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 700; font-size: clamp(2.8rem, 9vw, 5rem); line-height: 1; margin-top: 10px; color: var(--maroon-dark); background: linear-gradient(110deg, var(--maroon-dark), var(--gold), var(--maroon-dark)); background-size: 250%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
 @keyframes shine { 0% { background-position: 100%; } 100% { background-position: 0%; } }
@@ -98,8 +99,8 @@ footer { text-align: center; padding: 80px 20px 70px; background: var(--cream); 
 .credit { margin-top: 45px; font-family: "Jost", sans-serif; font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; opacity: .5; }
 
 .particles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 999; }
-.particle { position: absolute; top: -30px; width: 7px; height: 7px; background: var(--gold-light); transform: rotate(45deg); opacity: 0; animation: fall linear forwards; }
-@keyframes fall { 0% { transform: translateY(0) rotate(45deg) scale(.5); opacity: 0; } 15% { opacity: .9; } 85% { opacity: .7; } 100% { transform: translateY(110vh) translateX(var(--sway)) rotate(405deg) scale(.2); opacity: 0; } }
+.particle { position: absolute; top: -30px; color: var(--gold-light); text-shadow: 0 0 6px rgba(240,213,138,0.75); transform: rotate(0deg); opacity: 0; animation: fall linear forwards; will-change: transform, opacity; }
+@keyframes fall { 0% { transform: translateY(0) rotate(0deg) scale(.6); opacity: 0; } 15% { opacity: 1; } 85% { opacity: .8; } 100% { transform: translateY(110vh) translateX(var(--sway)) rotate(360deg) scale(.4); opacity: 0; } }
 
 .balloon { position: absolute; width: 42px; height: 52px; border-radius: 50% 50% 45% 45%; opacity: .72; animation: floatBalloon 5s ease-in-out infinite; }
 .balloon::after { content: ""; position: absolute; width: 1px; height: 75px; left: 50%; top: 48px; background: rgba(49,95,125,.35); }
@@ -208,7 +209,7 @@ footer { text-align: center; padding: 80px 20px 70px; background: var(--cream); 
             <img src="boy.jpeg" alt="Our Little Prince">
         </div>
 
-        <div class="birthday-title"> <span>1st Birthday of</span></div>
+        <div class="birthday-title"> <span>1<sup>st</sup> Birthday of</span></div>
         <div class="name">Janish Viyaan</div>
         <div class="age">ONE</div>
         <div class="age-label">Magical First Year</div>
@@ -224,7 +225,7 @@ footer { text-align: center; padding: 80px 20px 70px; background: var(--cream); 
 
 <section class="invitation" id="invitation">
     <div class="parents-section">
-        <div class="parents-label">Proud Parents</div>
+        <div class="parents-label">lovely Parents</div>
         <img src="parent.png" alt="Proud Parents" class="parents-img">
         <div class="parents-names">Godson & Preetha</div>
     </div>
@@ -232,7 +233,6 @@ footer { text-align: center; padding: 80px 20px 70px; background: var(--cream); 
     <div class="actions">
         <a class="action-button" href="https://maps.app.goo.gl/DreNQ57B5AsoqWLR7" target="_blank">View Location</a>
         <a class="action-button" href="tel:+919894793414">Call Us</a>
-
     </div>
 
     <div class="invitation-content">
@@ -339,28 +339,23 @@ window.onclick = function(event) {
 }
 
 const particleContainer = document.getElementById("particles");
+const stars = ["★", "✦", "✧", "⋆"];
+
 function createParticle() {
     const particle = document.createElement("div");
     particle.className = "particle";
-    particle.textContent = Math.random() > 0.5 ? "✦" : "♥";
-    particle.style.background = "transparent";
-    particle.style.width = "auto";
-    particle.style.height = "auto";
-    particle.style.fontSize = (Math.random() * 10 + 8) + "px";
+    particle.textContent = stars[Math.floor(Math.random() * stars.length)];
     particle.style.left = Math.random() * 100 + "vw";
+    particle.style.fontSize = (Math.random() * 10 + 10) + "px";
 
-    const size = Math.random() * 7 + 4;
-    particle.style.width = size + "px";
-    particle.style.height = size + "px";
-
-    const duration = Math.random() * 5 + 5;
+    const duration = Math.random() * 4 + 4.5;
     particle.style.animationDuration = duration + "s";
-    particle.style.setProperty("--sway", (Math.random() * 160 - 80) + "px");
+    particle.style.setProperty("--sway", (Math.random() * 120 - 60) + "px");
 
     particleContainer.appendChild(particle);
     setTimeout(() => { particle.remove(); }, duration * 1000);
 }
-setInterval(createParticle, 350);
+setInterval(createParticle, 300);
 
 const revealElements = [".photo-frame", ".birthday-title", ".name", ".age", ".hero-message", ".event", ".parents-section", ".actions"];
 const observer = new IntersectionObserver(entries => {
